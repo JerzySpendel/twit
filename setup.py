@@ -13,6 +13,8 @@ requires = [
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'waitress',
+    'sqlalchemy',
+    'pyramid-jinja2',
     ]
 
 setup(name='twitter',

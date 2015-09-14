@@ -1,0 +1,17 @@
+<html>
+<head>
+</head>
+<body>
+{% if not message %}
+    <form action='/' method="POST">
+        Username: <input type="text" name="username" /><br/>
+        Password: <input type="text" name="password" /><br/>
+        <input type="submit" value="Register" />
+    </form>
+{% endif %}
+{% if message %}
+<p> {{ message }}
+{% endif %}
+</form>
+</body>
+</html>

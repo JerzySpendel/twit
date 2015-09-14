@@ -19,3 +19,18 @@ class User(Base):
             return {'message': 'User registered'}
         request.response.status_int = 400
         return {'message': 'User with that name already exists'}
+
+    @classmethod
+    def login(cls, request):
+        username, password = [v for v in request.POST.values()]
+        query = request.db.query(cls)
+        u = query.filter(cls.username == username).first()
+        if not u:
+            return None
+        if u.password == password:
+            return u.username
+
+    @classmethod
+    def get_by_username(cls, request, username):
+        query = request.db.query(cls)
+        return query.filter(cls.username == username).first()

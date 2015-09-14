@@ -6,7 +6,7 @@ from ..models import User
 
 @view_config(route_name='login', renderer='twitter:templates/login.jinja2')
 def login(request):
-    r = HTTPFound(location='/')
+    r = HTTPFound(location=request.route_url('board'))
     if request.method == 'POST':
         u = User.login(request)
         if u:

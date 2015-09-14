@@ -1,0 +1,17 @@
+<html>
+<head>
+</head>
+<body>
+<div id="comment">
+    <form action="/post" method="POST">
+        <input type="text" name="content"/><br/>
+        <input type="submit" value="post" />
+    </form>
+</div>
+{% for post in posts %}
+    <div id="post" style="border: thin solid black;">
+    <p>{{ post.content }}</p>
+    </div>
+{% endfor %}
+</body>
+</html>

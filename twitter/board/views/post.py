@@ -9,5 +9,5 @@ from twitter.users.utils import logged_in
 def post(request):
     if request.method == 'POST':
         p = Post.from_request(request)
-        request.db.add(p)
+        p.register_hashtags(request)
         return HTTPFound(location=request.route_url('board'))

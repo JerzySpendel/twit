@@ -37,6 +37,7 @@ def main(global_config, **settings):
     config.add_route('login', path='/login')
     config.add_route('board', path='/board')
     config.add_route('post', path='/post')
+    config.add_route('hashtags', path='hashtags/{hashtag}')
     config.scan(ignore='twitter.setup')
     Base.metadata.create_all()
     return config.make_wsgi_app()

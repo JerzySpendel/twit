@@ -1,3 +1,18 @@
 {% extends "base.jinja2" %}
 {% block body %}
+<div id="users">
+<table>
+{% if users %}
+{% for user in users %}
+<tr>
+    <td>{{ user.username }}</td>
+    <td>
+        <form action="/follow/{{ user.username }}" method="GET">
+        <input type="submit" value="Follow" />
+        </form>
+    </td>
+</tr>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock body %}

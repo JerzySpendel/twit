@@ -34,3 +34,7 @@ class User(Base):
     def get_by_username(cls, request, username):
         query = request.db.query(cls)
         return query.filter(cls.username == username).first()
+
+    @classmethod
+    def get_all(cls, request):
+        return request.db.query(cls).all()

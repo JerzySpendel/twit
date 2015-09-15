@@ -1,6 +1,11 @@
 from ..orm import Base
 import sqlalchemy as sa
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, relation
+
+FollowersAssociation = sa.Table('followersassociation', Base.metadata,
+                                sa.Column('follower_id', sa.ForeignKey('users.id')),
+                                sa.Column('followee_id', sa.ForeignKey('users.id')),
+                                )
 
 
 class User(Base):
@@ -9,6 +14,10 @@ class User(Base):
     username = sa.Column(sa.String())
     password = sa.Column(sa.String())
     posts = relationship("Post", backref="user")
+    followers = relation("User", secondary=FollowersAssociation,
+                             primaryjoin=FollowersAssociation.c.follower_id==id,
+                             secondaryjoin=FollowersAssociation.c.followee_id==id,
+                             backref='followees')
 
     @classmethod
     def register(cls, request):

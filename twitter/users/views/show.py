@@ -8,4 +8,4 @@ from ..utils import logged_in
 def users(request):
     users = User.get_all(request)
     users.remove(request.user)
-    return {'users': users}
+    return {'users': users, 'logged_user': request.user}

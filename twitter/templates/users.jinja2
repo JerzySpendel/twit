@@ -7,9 +7,13 @@
 <tr>
     <td>{{ user.username }}</td>
     <td>
+    {% if logged_user not in user.followers %}
         <form action="/follow/{{ user.username }}" method="GET">
         <input type="submit" value="Follow" />
         </form>
+    {% else %}
+    <p>In your followees</p>
+    {% endif %}
     </td>
 </tr>
 </div>

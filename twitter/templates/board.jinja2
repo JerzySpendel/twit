@@ -24,7 +24,7 @@
             </p>
         <p>Comments:</p>
         <div id="comments">
-            {% for comment in post.comments %}
+            {% for comment in post.comments|reverse %}
                 <div id="comment" style="border: thin solid green;">
                 <p>{{ comment.user.username }} comments: {{ comment.content }}</p>
                 </div>

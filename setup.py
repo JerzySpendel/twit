@@ -15,7 +15,6 @@ requires = [
     'waitress',
     'sqlalchemy',
     'pyramid-jinja2',
-    'sqlalchemy_utils',
     ]
 
 setup(name='twitter',

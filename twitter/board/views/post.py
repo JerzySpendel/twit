@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPMethodNotAllowed
 from pyramid.view import view_config
 from ..models import Post
 from twitter.users.utils import logged_in
@@ -11,3 +11,4 @@ def post(request):
         p = Post.from_request(request)
         p.register_hashtags(request)
         return HTTPFound(location=request.route_url('board'))
+    raise HTTPMethodNotAllowed()

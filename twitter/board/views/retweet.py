@@ -1,6 +1,6 @@
 from pyramid.view import view_config
 from ..models import Post
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound, HTTPForbidden
 from twitter.users.utils import logged_in
 
 
@@ -11,7 +11,9 @@ def retweet(request):
     post = Post.get_by_id(request, post_id)
     if post is None:
         raise HTTPNotFound()
-    if post.retweet_possible(request):
+    if post.has_access(request):
         retweeted_post = post.retweet(request)
         request.db.add(retweeted_post)
+    else:
+        raise HTTPForbidden()
     return HTTPFound(location=request.route_url('board'))

@@ -54,8 +54,13 @@ class Post(Base):
             c = c.replace("#"+hashtag, url.format(hashtag=hashtag))
         return c
 
-    def retweet_possible(self, request):
+    def has_access(self, request):
         if request.user in self.user.followers:
+            return True
+        return False
+
+    def can_comment(self, request):
+        if request.user in self.user.followers or request.user is self.user:
             return True
         return False
 
@@ -84,3 +89,20 @@ class Post(Base):
         user_posts = sorted(user_posts, key=lambda p: p.datetime, reverse=True)
         return user_posts
 
+
+class Comment(Base):
+    __tablename__ = 'comments'
+    id = sa.Column(sa.Integer, primary_key=True)
+    content = sa.Column(sa.String(), nullable=False)
+    post_id = sa.Column(sa.Integer, sa.ForeignKey('posts.id'), nullable=False)
+    user_id = sa.Column(sa.Integer, sa.ForeignKey('users.id'), nullable=False)
+    datetime = sa.Column(sa.DateTime, nullable=False)
+    post = relationship("Post", backref='comments')
+    user = relationship("User", backref='comments')
+
+    @staticmethod
+    def from_request(request):
+        query = request.db.query(Post)
+        now = datetime.datetime.now()
+        post = query.filter(Post.id == request.matchdict['id']).first()
+        return Comment(user=request.user, post=post, datetime=now, content=request.POST['content'])

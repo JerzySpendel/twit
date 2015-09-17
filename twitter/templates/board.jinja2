@@ -1,23 +1,35 @@
 {% extends "base.jinja2" %}
 {% block body %}
-<div id="comment">
-    <form action="/post" method="POST">
-        <input type="text" name="content"/><br/>
-        <input type="submit" value="post" />
-    </form>
-</div>
-{% for post in posts %}
-    <div id="post" style="border: thin solid black;">
-    <p>
-    {% if request.user == post.user %}
-    You: {{ post.get_content_with_urls()|safe }}
-    {% else %}
-    {{ post.user.username }}: {{ post.get_content_with_urls()|safe }}<br/>
-    <form action="/retweet/{{ post.id }}" method="GET">
-    <input type="submit" value="Retweet" />
-    </form>
-    {% endif %}
-    </p>
+    <div id="comment">
+        <form action="/post" method="POST">
+            <input type="text" name="content"/><br/>
+            <input type="submit" value="post" />
+        </form>
     </div>
-{% endfor %}
+    {% for post in posts %}
+        <div id="post" style="border: thin solid black;">
+            <p>
+                {% if request.user == post.user %}
+                    You: {{ post.get_content_with_urls()|safe }}
+                {% else %}
+                    {{ post.user.username }}: {{ post.get_content_with_urls()|safe }}
+                {% endif %}
+                    <form action="/comment/{{ post.id }}" method="POST">
+                        <input type="text" name="content" />
+                        <input type="submit" value="Comment" />
+                    </form>
+            {% if request.user != post.user %}
+                <a href="/retweet/{{ post.id }}"><button>Retweet</button></a>
+            {% endif %}
+            </p>
+        <p>Comments:</p>
+        <div id="comments">
+            {% for comment in post.comments %}
+                <div id="comment" style="border: thin solid green;">
+                <p>{{ comment.user.username }} comments: {{ comment.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    {% endfor %}
 {% endblock body %}

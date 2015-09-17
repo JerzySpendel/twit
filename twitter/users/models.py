@@ -15,8 +15,8 @@ class User(Base):
     password = sa.Column(sa.String())
     posts = relationship("Post", backref="user")
     followers = relation("User", secondary=FollowersAssociation,
-                             primaryjoin=FollowersAssociation.c.follower_id==id,
-                             secondaryjoin=FollowersAssociation.c.followee_id==id,
+                             primaryjoin=FollowersAssociation.c.follower_id == id,
+                             secondaryjoin=FollowersAssociation.c.followee_id == id,
                              backref='followees')
 
     @classmethod

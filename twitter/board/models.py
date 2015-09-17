@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from ..orm import Base
 import re
 import datetime
+from twitter.users.models import User
 
 tagregex = re.compile(r"(?:(?<=\s)|^)#(\w*[A-Za-z_]+\w*)")
 PostsHashTagsAssociation = sa.Table('phtassociation', Base.metadata,
@@ -61,6 +62,11 @@ class Post(Base):
     @classmethod
     def get_all(cls, request):
         query = request.db.query(cls)
-        return query.filter(cls.user == request.user).all()
-
+        user_query = request.db.query(User)
+        user_posts = query.filter(cls.user == request.user).all()
+        followees = user_query.filter(User.followers.contains(request.user)).all()
+        for followee in followees:
+            user_posts.extend(followee.posts)
+        user_posts = sorted(user_posts, key=lambda p: p.datetime, reverse=True)
+        return user_posts
 

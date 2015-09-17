@@ -32,6 +32,7 @@ def main(global_config, **settings):
     config.set_authentication_policy(AuthTktAuthenticationPolicy(secret='secret'))
     config.registry.dbmaker = sessionmaker(bind=engine)
     config.add_request_method(db, reify=True)
+    config.add_tween('twitter.utils.tweens.RequestToJinja')
     config.include('pyramid_jinja2')
     config.add_route('register', path='/')
     config.add_route('login', path='/login')

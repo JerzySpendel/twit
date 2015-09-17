@@ -8,7 +8,13 @@
 </div>
 {% for post in posts %}
     <div id="post" style="border: thin solid black;">
-    <p>{{ post.get_content_with_urls()|safe }}</p>
+    <p>
+    {% if request.user == post.user %}
+    You: {{ post.get_content_with_urls()|safe }}
+    {% else %}
+    {{ post.user.username }}: {{ post.get_content_with_urls()|safe }}
+    {% endif %}
+    </p>
     </div>
 {% endfor %}
 {% endblock body %}

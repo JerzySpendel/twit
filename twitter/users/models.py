@@ -11,8 +11,8 @@ FollowersAssociation = sa.Table('followersassociation', Base.metadata,
 class User(Base):
     __tablename__ = 'users'
     id = sa.Column(sa.Integer(), primary_key=True)
-    username = sa.Column(sa.String())
-    password = sa.Column(sa.String())
+    username = sa.Column(sa.String(), nullable=False)
+    password = sa.Column(sa.String(), nullable=False)
     posts = relationship("Post", backref="user")
     followers = relation("User", secondary=FollowersAssociation,
                              primaryjoin=FollowersAssociation.c.follower_id == id,

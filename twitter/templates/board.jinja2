@@ -12,7 +12,10 @@
     {% if request.user == post.user %}
     You: {{ post.get_content_with_urls()|safe }}
     {% else %}
-    {{ post.user.username }}: {{ post.get_content_with_urls()|safe }}
+    {{ post.user.username }}: {{ post.get_content_with_urls()|safe }}<br/>
+    <form action="/retweet/{{ post.id }}" method="GET">
+    <input type="submit" value="Retweet" />
+    </form>
     {% endif %}
     </p>
     </div>

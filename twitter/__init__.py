@@ -42,6 +42,7 @@ def main(global_config, **settings):
     config.add_route('users', path='/users')
     config.add_route('logout', path='/logout')
     config.add_route('follow', path='/follow/{username}')
+    config.add_route('retweet', path='/retweet/{id}')
     config.scan(ignore='twitter.setup')
     Base.metadata.create_all()
     return config.make_wsgi_app()

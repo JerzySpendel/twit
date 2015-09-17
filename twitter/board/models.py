@@ -15,7 +15,7 @@ PostsHashTagsAssociation = sa.Table('phtassociation', Base.metadata,
 class HashTag(Base):
     __tablename__ = 'hashtags'
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.String())
+    name = sa.Column(sa.String(), nullable=False)
     posts = relationship("Post", secondary=PostsHashTagsAssociation,
                          backref="hashtags")
 
@@ -28,9 +28,9 @@ class HashTag(Base):
 class Post(Base):
     __tablename__ = 'posts'
     id = sa.Column(sa.Integer, primary_key=True)
-    user_id = sa.Column(sa.Integer, sa.ForeignKey('users.id'))
-    content = sa.Column(sa.String())
-    datetime = sa.Column(sa.DateTime())
+    user_id = sa.Column(sa.Integer, sa.ForeignKey('users.id'), nullable=False)
+    content = sa.Column(sa.String(), nullable=False)
+    datetime = sa.Column(sa.DateTime(), nullable=False)
 
     def get_hashtags(self):
         return tagregex.findall(self.content)
@@ -53,6 +53,20 @@ class Post(Base):
             url = '<a href="/hashtags/{hashtag}">#{hashtag}</a>'
             c = c.replace("#"+hashtag, url.format(hashtag=hashtag))
         return c
+
+    def retweet_possible(self, request):
+        if request.user in self.user.followers:
+            return True
+        return False
+
+    def retweet(self, request):
+        content = "{} said: '{}'".format(self.user.username, self.content)
+        now = datetime.datetime.now()
+        return Post(user=request.user, content=content, datetime=now)
+
+    @classmethod
+    def get_by_id(cls, request, id):
+        return request.db.query(cls).filter(cls.id == id).first()
 
     @staticmethod
     def from_request(request):

@@ -18,6 +18,11 @@
                         <input type="text" name="content" />
                         <input type="submit" value="Comment" />
                     </form>
+            {% if post not in request.user.starred %}
+                <a href="/star/{{ post.id }}"><button>Star</button></a>
+            {% else %}
+                <a href="/unstar/{{ post.id }}"><button>Unstar</button></a>
+            {% endif %}
             {% if request.user != post.user %}
                 <a href="/retweet/{{ post.id }}"><button>Retweet</button></a>
             {% endif %}
@@ -31,5 +36,6 @@
             {% endfor %}
         </div>
         </div>
+        <br/>
     {% endfor %}
 {% endblock body %}

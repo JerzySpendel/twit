@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 {% block head %}
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
 {% endblock head %}
 <body>
 <table>
-<tr>
-<td><a href="/board">Board</a></td>
-<td><a href="/users">Users</a></td>
-</tr>
+    <tr>
+        <td><a href="/board">Board</a></td>
+        <td><a href="/users">Users</a></td>
+        <td><a href="/favourites">Favourites</a></td>
+    </tr>
 </table>
 {% block body %}
 {% endblock body %}
 <form action="/logout" method="GET">
-<input type="submit" value="wyloguj"/>
+    <input type="submit" value="wyloguj"/>
 </form>
 </body>
 </html>

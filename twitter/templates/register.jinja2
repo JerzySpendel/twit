@@ -3,7 +3,7 @@
 </head>
 <body>
 {% if not message %}
-<p>Register yourself or <a href="/login">login</a></p>
+    <p>Register yourself or <a href="/login">login</a></p>
     <form action='/' method="POST">
         Username: <input type="text" name="username" /><br/>
         Password: <input type="text" name="password" /><br/>
@@ -11,7 +11,7 @@
     </form>
 {% endif %}
 {% if message %}
-<p> {{ message }}
+    <p> {{ message }}
 {% endif %}
 </form>
 </body>

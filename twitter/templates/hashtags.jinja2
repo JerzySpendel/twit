@@ -1,14 +1,14 @@
 {% extends "base.jinja2" %}
 {% block body %}
-{% if message %}
-<p> {{ message }}</p>
-{% endif %}
-{% if tag %}
-{% for post in tag.posts %}
-    <div id="hashtag" style="border: solid black thin;">
-    <p>{{ post.user.username }} said</p>
-    <p>{{ post.get_content_with_urls()|safe }}</p>
-    </div>
-{% endfor %}
-{% endif %}
+    {% if message %}
+        <p> {{ message }}</p>
+    {% endif %}
+    {% if tag %}
+        {% for post in tag.posts %}
+            <div id="hashtag" style="border: solid black thin;">
+                <p>{{ post.user.username }} said</p>
+                <p>{{ post.get_content_with_urls()|safe }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock body %}

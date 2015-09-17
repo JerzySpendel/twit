@@ -7,6 +7,11 @@ FollowersAssociation = sa.Table('followersassociation', Base.metadata,
                                 sa.Column('followee_id', sa.ForeignKey('users.id')),
                                 )
 
+FavouritesAssociation = sa.Table('favouriteassociation', Base.metadata,
+                                 sa.Column('post_id', sa.ForeignKey('posts.id')),
+                                 sa.Column('user_id', sa.ForeignKey('users.id')),
+                                 )
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -18,6 +23,8 @@ class User(Base):
                              primaryjoin=FollowersAssociation.c.follower_id == id,
                              secondaryjoin=FollowersAssociation.c.followee_id == id,
                              backref='followees')
+    starred = relationship("Post", secondary=FavouritesAssociation,
+                           backref='users')
 
     @classmethod
     def register(cls, request):

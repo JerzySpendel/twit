@@ -3,13 +3,13 @@
 </head>
 <body>
 {% if not message %}
-<form action="/login" method="POST">
+    <form action="/login" method="POST">
     Username: <input type="text" name="username" /><br />
     Password: <input type="text" name="password" /><br />
     <input type="submit" value="Login" />
 {% endif %}
 {% if message %}
-<p>{{ message }}</p>
+    <p>{{ message }}</p>
 {% endif %}
 </form>
 </body>
